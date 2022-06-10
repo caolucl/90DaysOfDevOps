@@ -19,14 +19,18 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "##vso[task.setvariable variable=SASToken]TestSASTokenValue"
+          Write-Host "##vso[task.setvariable variable=SASToken;isoutput=true;]TestSASTokenValue"
     - task: PowerShell@2
       displayName: 'Stage1-Job1-Task2'
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "The value of SAS Token: $(SASToken)"
+          Write-Host "The value of SAS Token: $(Stage1-Job1-Task1.SASToken)"
   - job: Stage1_Job2
+    dependsOn: Stage1_Job1
+    variables:
+    - name: NewSASToken
+      value: $[dependencies.Stage1_Job1.output['Stage1-Job1-Task1.SASToken']]
     steps:
     - task: PowerShell@2
       displayName: 'Stage1-Job2-Task1'
@@ -37,7 +41,8 @@ stages:
       displayName: 'Stage1-Job2-Task2'
       inputs:
         targetType: 'inline'
-        script: 'Write-Host "Hello World"'
+        script: |
+          Write-Host "The value of SASToken is $(NewSASToken)"
 - stage: Stage2
   jobs:
   - job: Stage2_Job1
