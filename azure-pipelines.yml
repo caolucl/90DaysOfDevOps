@@ -16,6 +16,9 @@ stages:
     ExecuateTaskBasedonCodition: true
 
   jobs:
+  - deployment: Deploy
+    environment: dev 
+
   - job: Job1
     pool:
       vmImage: ubuntu-latest
