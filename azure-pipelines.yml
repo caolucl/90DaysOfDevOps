@@ -5,34 +5,38 @@
 
 trigger:
 - main
-variables:
-  configuration: debug
-  ExecuateTaskBasedonCodition: true
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+- stage: 'Dev'
+  displayName: ' dev environment'
 
-jobs:
-  - job: Job1
+  variables:
+      configuration: debug
+      ExecuateTaskBasedonCodition: true
 
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
-      condition: eq(variables['ExecuateTaskBasedonCodition'],'true')
+      jobs:
+        - job: Job1
+          pool:
+            vmImage: ubuntu-latest
 
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
+          steps:
+          - script: echo Hello, world!
+            displayName: 'Run a one-line script'
+            condition: eq(variables['ExecuateTaskBasedonCodition'],'true')
 
-  - job: Job2
-    dependsOn: Job1
-    condition: failed()
-    steps:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: |
-          # Write your PowerShell commands here.
-          
-          Write-Host "Hello World"
+          - script: |
+              echo Add other tasks to build, test, and deploy your project.
+              echo See https://aka.ms/yaml
+            displayName: 'Run a multi-line script'
+
+        - job: Job2
+          dependsOn: Job1
+          condition: failed()
+          steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your PowerShell commands here.
+                
+                Write-Host "Hello World"
