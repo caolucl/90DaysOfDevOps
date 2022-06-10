@@ -19,8 +19,6 @@ stages:
   - job: Job1
     pool:
       vmImage: ubuntu-latest
-
-    environment: dev
     steps:
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
@@ -35,12 +33,21 @@ stages:
     dependsOn: Job1
     pool:
       vmImage: ubuntu-latest
-    environment: dev
     condition: succeededOrFailed()
     steps:
+    
+    - task: PowerShell@2
+      displayName: 'Not So important Task'
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        script: |
+            # Write your PowerShell commands here.
+             Write-Hosts "Hello World"
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
             # Write your PowerShell commands here.
              Write-Host "Hello World"
+    
