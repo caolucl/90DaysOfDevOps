@@ -18,12 +18,14 @@ stages:
       displayName: 'Stage1-Job1-Task1'
       inputs:
         targetType: 'inline'
-        script: 'Write-Host "Hello World"'
+        script: |
+          Write-Host "##vso[task.setvariable variable=SASToken]TestSASTokenValue"
     - task: PowerShell@2
       displayName: 'Stage1-Job1-Task2'
       inputs:
         targetType: 'inline'
-        script: 'Write-Host "Hello World"'
+        script: |
+          Write-Host "The value of SAS Token: $(SASToken)"
   - job: Stage1_Job2
     steps:
     - task: PowerShell@2
