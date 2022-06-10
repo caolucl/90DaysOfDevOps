@@ -22,7 +22,7 @@ jobs:
       displayName: 'Run a multi-line script'
 
   - job: Job2
-    dependsOn:: Job1
+    dependsOn: Job1
     condition: failed()
     steps:
     - task: PowerShell@2
