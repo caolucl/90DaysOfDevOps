@@ -31,7 +31,9 @@ stages:
 
   - job: Job2
     dependsOn: Job1
-    condition: failed()
+    pool:
+      vmImage: ubuntu-latest
+    condition: succeededOrFailed()
     steps:
     - task: PowerShell@2
       inputs:
