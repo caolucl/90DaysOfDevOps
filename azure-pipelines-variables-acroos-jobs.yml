@@ -1,0 +1,65 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+ 
+trigger:
+- main
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+stages:
+- stage: Stage1
+  jobs:
+  - job: Stage1_Job1
+    steps:
+    - task: PowerShell@2
+      displayName: 'Stage1-Job1-Task1'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+    - task: PowerShell@2
+      displayName: 'Stage1-Job1-Task2'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+  - job: Stage1_Job2
+    steps:
+    - task: PowerShell@2
+      displayName: 'Stage1-Job2-Task1'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+    - task: PowerShell@2
+      displayName: 'Stage1-Job2-Task2'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+- stage: Stage2
+  jobs:
+  - job: Stage2_Job1
+    steps:
+    - task: PowerShell@2
+      displayName: 'Stage2-Job1-Task1'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+    - task: PowerShell@2
+      displayName: 'Stage2-Job1-Task2'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+  - job: Stage2_Job2
+    steps:
+    - task: PowerShell@2
+      displayName: 'Stage2-Job2-Task1'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+    - task: PowerShell@2
+      displayName: 'Stage2-Job2-Task2'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "Hello World"'
+  
