@@ -9,6 +9,7 @@ trigger:
 stages:
 - stage: 'dev'
   displayName: ' dev environment'
+  
 
   variables:
     configuration: debug
@@ -19,6 +20,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
 
+    environment: dev
     steps:
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
@@ -33,6 +35,7 @@ stages:
     dependsOn: Job1
     pool:
       vmImage: ubuntu-latest
+    environment: dev
     condition: succeededOrFailed()
     steps:
     - task: PowerShell@2
