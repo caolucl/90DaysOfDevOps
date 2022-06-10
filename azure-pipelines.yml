@@ -7,7 +7,7 @@ trigger:
 - main
 
 stages:
-- stage: 'Dev'
+- stage: 'dev'
   displayName: ' dev environment'
 
   variables:
