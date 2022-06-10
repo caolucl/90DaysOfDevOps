@@ -16,34 +16,39 @@ stages:
     steps:
     - task: PowerShell@2
       displayName: 'Stage1-Job1-Task1'
+      name: 'Stage1_Job1_Task1'
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "##vso[task.setvariable variable=SASToken;isoutput=true;]TestSASTokenValue"
-    - task: PowerShell@2
-      displayName: 'Stage1-Job1-Task2'
-      inputs:
-        targetType: 'inline'
-        script: |
-          Write-Host "The value of SAS Token: $(Stage1-Job1-Task1.SASToken)"
+         Write-Host "##vso[task.setvariable variable=SASToken;isoutput=true;]TestSASTokenValue"
+    -  task: PowerShell@2
+       displayName: 'Stage1-Job1-Task2'
+       continueOnError: true
+       inputs:
+          targetType: 'inline'
+          script: |
+           Write-Host "The value of SASToken: $(Stage1_Job1_Task1.SASToken)"
   - job: Stage1_Job2
     dependsOn: Stage1_Job1
     variables:
     - name: NewSASToken
-      value: $[dependencies.Stage1_Job1.output['Stage1-Job1-Task1.SASToken']]
+      value: $[dependencies.Stage1_Job1.outputs['Stage1_Job1_Task1.SASToken']]
     steps:
     - task: PowerShell@2
       displayName: 'Stage1-Job2-Task1'
       inputs:
         targetType: 'inline'
-        script: 'Write-Host "Hello World"'
+        script: |
+           'Write-Host "The value of SASToken is $(NewSASToken)"'
     - task: PowerShell@2
       displayName: 'Stage1-Job2-Task2'
       inputs:
         targetType: 'inline'
-        script: |
-          Write-Host "The value of SASToken is $(NewSASToken)"
+        script: 'Write-Host "Hello World"'
 - stage: Stage2
+  variables:
+    - name: NewSASToken
+      value: $[stageDependencies.Stage1.Stage1_Job1.outputs['Stage1_Job1_Task1.SASToken']]
   jobs:
   - job: Stage2_Job1
     steps:
@@ -51,7 +56,7 @@ stages:
       displayName: 'Stage2-Job1-Task1'
       inputs:
         targetType: 'inline'
-        script: 'Write-Host "Hello World"'
+        script: 'Write-Host "The value of SASToken in Stage2: $(NewSASToken)"'
     - task: PowerShell@2
       displayName: 'Stage2-Job1-Task2'
       inputs:
@@ -69,4 +74,3 @@ stages:
       inputs:
         targetType: 'inline'
         script: 'Write-Host "Hello World"'
-  
