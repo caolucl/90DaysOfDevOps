@@ -13,8 +13,9 @@ jobs:
   - job: Job1
 
     steps:
-    - script: echo Hello, world!'
+    - script: echo Hello, world!
       displayName: 'Run a one-line script'
+      condition: eq(variables['ExecuateTaskBasedonCodition'],'true')
 
     - script: |
         echo Add other tasks to build, test, and deploy your project.
