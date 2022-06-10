@@ -5,6 +5,9 @@
 
 trigger:
 - main
+variables:
+  configuration: debug
+  ExecuateTaskBasedonCodition: true
 
 pool:
   vmImage: ubuntu-latest
