@@ -1,0 +1,20 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+# Delete All namespaces start with dev-
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'KACALP Development Subscription(746679b2-2eac-48b8-904e-ada82a6116e8)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az aks get-credentials --resource-group $AKS_RG --name $AKS_NAME --admin
+      kubectl get ns
+      kubectl get namespaces
+      #kubectl get namespaces --no-headers=true -o custom-columns=:metadata.name | grep dev- | xargs kubectl delete namespace
+      kubectl get ns
+  displayName: 'Get All namespaces'
